@@ -2,6 +2,7 @@ const container = document.querySelector('.container');
 const search = document.querySelector('.search-box button');
 const weatherBox = document.querySelector('.weather-box');
 const weatherDetails = document.querySelector('.weather-details');
+const error404 = document.querySelector('.not-found');
 
 search.addEventListener('click', () => {
 
@@ -12,6 +13,19 @@ search.addEventListener('click', () => {
         return;
 
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIKey}`).then(response => response.json()).then(json => {
+        
+        if (json.cod=404) {
+            container.style.height = '70vh';
+            weatherBox.classList.remove('active');
+            weatherDetails.classList.remove('active');
+            error404.classList.add('active');
+            return;
+        }
+
+        container.style.height = '90vh'
+        weatherBox.classList.add('active');
+        weatherDetails.classList.add('active');
+        error404.classList.remove('active');
         
         const image = document.querySelector('.weather-box img');
         const temperature = document.querySelector('.weather-box .temperature');
